@@ -66,4 +66,19 @@
         delete from t_checkgroup where `id` = #{id}
     </delete>
 
+    <select id="findBySetmealId" parameterType="integer" resultMap="findBySetmealIdMap">
+        select * from t_checkgroup where id in(select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{setmealId})
+    </select>
+
+    <resultMap id="findBySetmealIdMap" type="checkGroup">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <collection property="checkItems" ofType="checkItem" column="id" select="com.likai.dao.CheckItemDao.findByCheckGroupId"></collection>
+    </resultMap>
+
 </mapper>

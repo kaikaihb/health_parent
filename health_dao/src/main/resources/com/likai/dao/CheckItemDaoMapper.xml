@@ -66,4 +66,8 @@
         select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
     </select>
 
+    <select id="findByCheckGroupId" parameterType="integer" resultType="checkItem">
+        select * from t_checkitem where id in(select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id})
+    </select>
+
 </mapper>

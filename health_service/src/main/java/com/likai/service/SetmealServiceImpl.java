@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service(interfaceClass = SetmealService.class)
@@ -40,6 +41,16 @@ public class SetmealServiceImpl implements SetmealService {
         PageHelper.startPage(queryPageBean.getCurrentPage(), queryPageBean.getPageSize());
         Page<Setmeal> page = setmealDao.selectByCondition(queryPageBean.getQueryString());
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
+    @Override
+    public Setmeal findById(Integer id) {
+        return setmealDao.findById(id);
     }
 
     private void setSetmealAndCheckGroup(Integer id, Integer[] checkGroupIds) {
