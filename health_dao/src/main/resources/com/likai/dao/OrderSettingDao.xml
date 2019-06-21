@@ -21,4 +21,12 @@
     <select id="getOrderSettingByMonth" parameterType="hashmap" resultType="OrderSetting">
          select * from t_ordersetting where orderDate between #{dateBegin} and #{dateEnd}
     </select>
+
+    <select id="findByOrderDate" parameterType="date" resultType="OrderSetting">
+        select * from t_ordersetting where orderDate = #{orderDate}
+    </select>
+
+    <update id="editReservationsByOrderDate" parameterType="date">
+        update t_ordersetting set reservations = (reservations + 1) where orderDate = #{orderDate}
+    </update>
 </mapper>
