@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="com.likai.security"/>
+
+    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/css/**" security="none"/>
+    <security:http pattern="/img/**" security="none"/>
+    <security:http pattern="/index.html" security="none"/>
+    <security:http pattern="/login.html" security="none"/>
+    <security:http pattern="/regist.html" security="none"/>
+
+    <security:http auto-config="true" use-expressions="true">
+
+        <security:intercept-url pattern="/a.html" access="hasAuthority('update')" />
+        <security:intercept-url pattern="/b.html" access="hasAuthority('delete')" />
+        <security:intercept-url pattern="/c.html" access="hasRole('ROLE_USER')" />
+        <security:intercept-url pattern="/d.html" access="hasAuthority('add')" />
+
+        <!--<security:intercept-url pattern="/hello/add.do" access="hasAuthority('add')" />
+        <security:intercept-url pattern="/hello/delete.do" access="hasRole('ROLE_ADMIN')" />-->
+
+        <security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
+
+        <security:form-login login-page="/login.html" login-processing-url="/login.do"
+                             username-parameter="username" password-parameter="password"
+                             authentication-success-forward-url="/index.html"
+                             authentication-failure-url="/login.html"
+        />
+
+        <security:csrf disabled="true"/>
+
+        <security:logout logout-url="/logout.do" logout-success-url="/login.html" invalidate-session="true"/>
+    </security:http>
+
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="springSecurityUserService">
+            <security:password-encoder ref="bCryptPasswordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="springSecurityUserService" class="com.likai.security.SpringSecurityUserService"/>
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+
+    <security:global-method-security pre-post-annotations="enabled" />
+</beans>
