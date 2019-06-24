@@ -322,8 +322,17 @@
                             }else {
                                 this.$message.error(response.data.message);
                             }
+                        }).catch((r)=>{
+                            this.showMessage(r);
                         });
                     });
+                },
+                showMessage(r){
+                    if (r == "Error: Request failed with status code 403"){
+                        this.$message.error("权限不足");
+                    }else{
+                        this.$message.error("服务器异常");
+                    }
                 }
             }
         })

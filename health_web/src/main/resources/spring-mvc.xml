@@ -35,6 +35,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <import resource="spring-redis.xml"></import>
+    <import resource="classpath:spring-redis.xml"></import>
+    <import resource="classpath:spring-security.xml"></import>
 
 </beans>

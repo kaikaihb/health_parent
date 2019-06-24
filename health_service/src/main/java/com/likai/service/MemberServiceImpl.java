@@ -7,6 +7,9 @@ import com.likai.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service(interfaceClass = MemberService.class)
 @Transactional
 public class MemberServiceImpl implements MemberService {
@@ -25,5 +28,16 @@ public class MemberServiceImpl implements MemberService {
             member.setPassword(MD5Utils.md5(member.getPassword()));
         }
         memberDao.add(member);
+    }
+
+    @Override
+    public List<Integer> findMemberCountByMonths(List<String> monthList) {
+        List<Integer> memberCountList = new ArrayList<Integer>();
+        for (String date : monthList) {
+            date = date+"-31";
+            Integer memberCount = memberDao.findMemberCountBeforeDate(date);
+            memberCountList.add(memberCount);
+        }
+        return memberCountList;
     }
 }

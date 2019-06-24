@@ -8,6 +8,7 @@ import com.likai.pojo.CheckItem;
 import com.likai.constant.MessageConstant;
 import com.likai.service.CheckItemService;
 import com.likai.service.TestService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +77,7 @@ public class CheckItemController {
     }
 
     @RequestMapping("/delete.do")
+    @PreAuthorize("hasAnyAuthority('CHECKITEM_DELETE')")
     public Result delete(Integer id){
         try {
             checkItemService.delete(id);

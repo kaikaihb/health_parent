@@ -11,4 +11,9 @@
             values
         (#{fileNumber},#{name},#{sex},#{idCard},#{phoneNumber},#{regTime},#{password},#{email},#{birthday},#{remark})
     </insert>
+
+    <!--根据日期统计会员数-->
+    <select id="findMemberCountByDate" parameterType="string" resultType="int">
+        select count(id) from t_member where regTime = #{value}
+    </select>
 </mapper>
