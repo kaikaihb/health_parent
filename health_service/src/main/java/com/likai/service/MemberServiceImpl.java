@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = MemberService.class)
 @Transactional
@@ -39,5 +40,10 @@ public class MemberServiceImpl implements MemberService {
             memberCountList.add(memberCount);
         }
         return memberCountList;
+    }
+
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+        return memberDao.findSetmealCount();
     }
 }

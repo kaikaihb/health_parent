@@ -16,4 +16,11 @@
     <select id="findMemberCountByDate" parameterType="string" resultType="int">
         select count(id) from t_member where regTime = #{value}
     </select>
+
+    <select id="findSetmealCount" resultType="map">
+      select s.name,count(o.id) as value
+      from t_order o ,t_setmeal s
+      where o.setmeal_id = s.id
+      group by s.name
+    </select>
 </mapper>
